@@ -1,0 +1,104 @@
+:root {
+    --ink-900: #0f172a;
+    --ink-700: #334155;
+    --sky-500: #38bdf8;
+    --violet-500: #8b5cf6;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.35);
+}
+
+body {
+    font-family: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #a5b4fc 0%, transparent 45%),
+        radial-gradient(circle at top right, #67e8f9 0%, transparent 50%),
+        linear-gradient(120deg, #0f172a, #1e293b 55%, #0f172a);
+    color: var(--ink-900);
+}
+
+header {
+    color: white;
+}
+
+.eyebrow {
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35);
+}
+
+.section-card {
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--ink-700);
+}
+
+.section-giver {
+    border-left: 4px solid #38bdf8;
+}
+
+.section-giver .section-title {
+    color: #0ea5e9;
+}
+
+.section-receiver {
+    border-left: 4px solid #f59e0b;
+}
+
+.section-receiver .section-title {
+    color: #d97706;
+}
+
+.section-gift {
+    border-left: 4px solid #a78bfa;
+}
+
+.section-gift .section-title {
+    color: #7c3aed;
+}
+
+.feature-card {
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
+.feature-card .card-body {
+    padding: 28px;
+}
+
+.icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, var(--sky-500), var(--violet-500));
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--sky-500), var(--violet-500));
+    border: none;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.05);
+}

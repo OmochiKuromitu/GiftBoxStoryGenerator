@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftBox Story Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+    <header class="py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <p class="eyebrow mb-2">ギフトの物語をすぐに</p>
+                    <h1 class="display-5 fw-semibold mb-3 text-white">GiftBox Story Generator</h1>
+                    <p class="lead text-white-50 mb-4">
+                        もらった人が思わず笑顔になる、パーソナルなストーリーを数分で作成。
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-light btn-lg">ストーリーを作る</button>
+                        <button class="btn btn-outline-light btn-lg">デモを見る</button>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card glass-card border-0">
+                        <div class="card-body">
+                            <h2 class="h5 fw-semibold mb-3">作成したい情報を入力してね</h2>
+                            <form id="giftForm">
+                                <div class="section-card section-giver mb-4">
+                                    <p class="section-title mb-3">渡すキャラクター</p>
+                                    <div class="mb-3">
+                                        <label for="giverName" class="form-label">プレゼントを渡すキャラクター名（必須）</label>
+                                        <input type="text" id="giverName" name="giverName" class="form-control" placeholder="アリス" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="giverImage" class="form-label">プレゼントを渡すキャラクター画像（任意）</label>
+                                        <input type="file" id="giverImage" name="giverImage" class="form-control" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <label for="giverLine1" class="form-label">プレゼントを渡すキャラクターのセリフ（1〜3個）</label>
+                                        <input type="text" id="giverLine1" name="giverLine1" class="form-control mb-2" placeholder="セリフ1">
+                                        <input type="text" id="giverLine2" name="giverLine2" class="form-control mb-2" placeholder="セリフ2">
+                                        <input type="text" id="giverLine3" name="giverLine3" class="form-control" placeholder="セリフ3">
+                                    </div>
+                                </div>
+                                <div class="section-card section-receiver mb-4">
+                                    <p class="section-title mb-3">貰うキャラクター</p>
+                                    <div class="mb-3">
+                                        <label for="receiverName" class="form-label">プレゼントを貰うキャラクター名（必須）</label>
+                                        <input type="text" id="receiverName" name="receiverName" class="form-control" placeholder="ボブ" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="receiverImage" class="form-label">プレゼントを貰うキャラクター画像（任意）</label>
+                                        <input type="file" id="receiverImage" name="receiverImage" class="form-control" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <label for="receiverLine1" class="form-label">プレゼントを貰うキャラクターのセリフ（1〜3個）</label>
+                                        <input type="text" id="receiverLine1" name="receiverLine1" class="form-control mb-2" placeholder="セリフ1">
+                                        <input type="text" id="receiverLine2" name="receiverLine2" class="form-control mb-2" placeholder="セリフ2">
+                                        <input type="text" id="receiverLine3" name="receiverLine3" class="form-control" placeholder="セリフ3">
+                                    </div>
+                                </div>
+                                <div class="section-card section-gift mb-4">
+                                    <p class="section-title mb-3">プレゼント</p>
+                                    <div class="mb-3">
+                                        <label for="giftImage" class="form-label">プレゼント画像（任意）</label>
+                                        <input type="file" id="giftImage" name="giftImage" class="form-control" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <label class="form-label d-block">プレゼントの種類（必須）</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="giftType" id="giftTypeA" value="type-a" required>
+                                            <label class="form-check-label" for="giftTypeA">タイプA</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="giftType" id="giftTypeB" value="type-b" required>
+                                            <label class="form-check-label" for="giftTypeB">タイプB</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="giftType" id="giftTypeC" value="type-c" required>
+                                            <label class="form-check-label" for="giftTypeC">タイプC</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">ストーリーを作る</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pb-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body">
+                            <div class="icon-badge mb-3">01</div>
+                            <h3 class="h5 fw-semibold">テンプレ不要</h3>
+                            <p class="text-muted mb-0">相手の情報を入れるだけで、ストーリーを自動生成。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body">
+                            <div class="icon-badge mb-3">02</div>
+                            <h3 class="h5 fw-semibold">共有リンク</h3>
+                            <p class="text-muted mb-0">完成したストーリーはリンクで簡単に共有。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body">
+                            <div class="icon-badge mb-3">03</div>
+                            <h3 class="h5 fw-semibold">すぐに印刷</h3>
+                            <p class="text-muted mb-0">カード形式でそのまま印刷できるレイアウト。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const giftForm = document.getElementById("giftForm");
+        if (giftForm) {
+            giftForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const formData = new FormData(giftForm);
+                const payload = {
+                    giverName: formData.get("giverName")?.toString().trim() || "",
+                    giverImage: formData.get("giverImage")?.name || "",
+                    receiverName: formData.get("receiverName")?.toString().trim() || "",
+                    receiverImage: formData.get("receiverImage")?.name || "",
+                    giftImage: formData.get("giftImage")?.name || "",
+                    giftType: formData.get("giftType")?.toString() || "",
+                    giverLines: [
+                        formData.get("giverLine1")?.toString().trim() || "",
+                        formData.get("giverLine2")?.toString().trim() || "",
+                        formData.get("giverLine3")?.toString().trim() || ""
+                    ],
+                    receiverLines: [
+                        formData.get("receiverLine1")?.toString().trim() || "",
+                        formData.get("receiverLine2")?.toString().trim() || "",
+                        formData.get("receiverLine3")?.toString().trim() || ""
+                    ]
+                };
+                sessionStorage.setItem("giftPreviewData", JSON.stringify(payload));
+                window.location.href = "preview.html";
+            });
+        }
+    </script>
+</body>
+</html>
