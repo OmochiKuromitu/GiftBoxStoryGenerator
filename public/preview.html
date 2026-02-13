@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftBox Story Generator | Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+</head>
+
+<body>
+    <header class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="display-5 fw-semibold mb-0 text-white">GiftBox Story Generator</h1>
+                    <p class="text-white-50 small mt-2 mb-0">画面タップで最後まで自動再生されます。</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pb-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="video-stage">
+                        <div class="video-canvas" id="videoCanvas">
+                            <div class="intro-screen" id="introScreen">
+                                <div class="intro-characters">
+                                    <div class="intro-person">
+                                        <img class="intro-avatar" src="assets/images/chara_send.jpg" alt="送るキャラ">
+                                        <p class="intro-label">贈る人</p>
+                                        <h3 class="intro-name">送るキャラ</h3>
+                                    </div>
+                                    <div class="intro-person">
+                                        <img class="intro-avatar" src="assets/images/chara_receive.jpg" alt="貰うキャラ">
+                                        <p class="intro-label">受け取る人</p>
+                                        <h3 class="intro-name intro-receiver-name">貰うキャラ</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fade-overlay" id="fadeOverlay" aria-hidden="true"></div>
+                            <div class="heart-burst" aria-hidden="true">
+                                <span class="burst-heart h1"></span>
+                                <span class="burst-heart h2"></span>
+                                <span class="burst-heart h3"></span>
+                                <span class="burst-heart h4"></span>
+                                <span class="burst-heart h5"></span>
+                                <span class="burst-heart h6"></span>
+                            </div>
+                            <img class="gift-box" id="giftBox" src="assets/images/presentbox1_close.png" alt="プレゼント箱">
+                            <img class="gift-box open-box" id="openBox" src="assets/images/presentbox1_open.png"
+                                alt="開いたプレゼント箱">
+                            <div class="gift-reveal" id="giftReveal">
+                                <img class="gift-glow" src="assets/images/present_effect.png" alt="" aria-hidden="true">
+                                <img class="gift-item" id="giftItem" src="assets/images/present1.png" alt="プレゼント">
+                                <div class="gift-heart-trail" aria-hidden="true"></div>
+                            </div>
+                            <div class="reaction-layer" id="reactionLayer">
+                                <div class="reaction-group" id="senderReaction"></div>
+                                <div class="reaction-group" id="receiverReaction"></div>
+                            </div>
+                            <div class="chat-layer" id="chatLayer">
+                            </div>
+                            <div class="creator-frame">
+                                <p class="creator-text">Creator by <span id="introAuthorName">未入力</span></p>
+                            </div>
+                            <p class="video-watermark" aria-hidden="true">
+                                <span>無断転載/AI学習禁止</span>
+                                <span id="watermarkAuthorName">未入力</span>
+                            </p>
+                        </div>
+                        <div class="replay-wrap">
+                            <button class="btn btn-light btn-lg" type="button" id="replayButton">もう一度見る</button>
+                            <a class="btn btn-light btn-lg" href="index.html">入力に戻る</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app/preview-page-timeline.js"></script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 # GiftBoxStoryGenerator
 簡単な操作でキャラクター同士がプレゼントを交換し合うグリーディング動画が作成できます
 
-**GiftBoxStoryGeneratorJS** は、  
+**GiftBoxStoryGenerator** は、  
 主に同人作家がイベントごとに利用する「贈る・受け取る」をテーマとした  
 **演出付きストーリー（画像／動画／テキスト）を生成するWebベースのOSS**です。
 
@@ -20,7 +20,6 @@
 - 💖 ハート・キラキラなどのパーティクル演出（Canvas / JS）
 - 📱 スマートフォン縦画面対応
 - 🎥 生成結果を **動画 or 静止画として保存・共有可能**
-- 🔒 生成物は一時保存前提（イベント向け設計）
 - 🤝 参加者同士の交流不要な設計
 
 ---
@@ -37,10 +36,8 @@
 
 これらを組み合わせて結果を生成します。
 
-また、生成させた動画をクローラーに食べさせて生成AIの学習データに利用もさせないような仕組みをとっております。
-
-創作物の責任所在が曖昧になることを避け、  
-**人の手による創作体験を尊重する設計**を採用しています。
+また、送信したデータはブラウザに一時保存されるだけでサーバーへ送信しません。
+そのため、学習データ収集用のクローラーなどにも取得されないです。
 
 ※作った動画を自分でSNSにアップなど、ジェネレータから手を離れた場合は担保してません。
 
@@ -57,72 +54,51 @@
 
 ## 技術スタック
 
-- Frontend
-  - HTML / CSS
-  - JavaScript (ES6+)
-  - Canvas API
-- Optional Backend
-  - Firebase Storage（一時保存）
-  - Firebase Cloud Functions(またはHTTP APIが実装できる環境であれば何でも)
+- Frontend（クライアントサイド）
+  - HTML5 / CSS3
+  - JavaScript（Vanilla JS, ES6+）
+  - Bootstrap 5（CDN）
+  - Google Fonts（Manrope）
+- Browser APIs
+  - Session Storage（画面間データ保持）
+  - IndexedDB（画像の一時保存）
+  - FileReader / Canvas / Blob API（画像トリミング・圧縮。ソースにはいれてあるけどイベント呼んでない）
+- Hosting
+  - 静的ファイル配信（Apache / Nginx / Firebase Hosting など。HTTPが動けば何でも）
+- Optional Backend（必要な場合のみ。未実装）
+  - Firebase Storage（アップロード保存）
+  - Firebase Cloud Functions（アップロード連携・後処理）
 
-※ フロントエンド単体でも動作する構成を想定しています。
+※ 現在はフロントエンド単体でも動作する構成です。
 
 ---
 
 ## 構成イメージ
+GiftBoxStoryGenerator/publicをこのまま任意のWebホスティングサービスに置けばとりあえずは動作します。ローカルでも動きます。
 
+```text
 GiftBoxStoryGenerator/
-│
-├─ public/ # 静的ファイル（ホスティング対象）
-│ ├─ index.html # 入力フォーム
-│ ├─ result.html # 確認画面
-│ ├─ result.html # リザルト画面
-│ │
-│ ├─ css/ # スタイル定義
-│ │ ├─ base.css
-│ │ ├─ ui.css
-│ │ └─ animation.css
-│ │
-│ ├─ js/
-│ │ ├─ app/ # 入力UI・状態管理・画面遷移
-│ │ │ ├─ form.js
-│ │ │ ├─ state.js
-│ │ │ └─ router.js
-│ │ │
-│ │ ├─ canvas/ # Canvas演出・シーン描画
-│ │ │ ├─ sceneManager.js
-│ │ │ ├─ heartEffect.js
-│ │ │ ├─ particle.js
-│ │ │ ├─ transition.js
-│ │ │ └─ textEffect.js
-│ │ │
-│ │ ├─ video/ # 動画生成・書き出し
-│ │ │ ├─ recorder.js
-│ │ │ └─ export.js
-│ │ │
-│ │ └─ storage/ # 保存・共有（任意）
-│ │ ├─ firebase.js
-│ │ ├─ upload.js
-│ │ └─ share.js
-│ │
-│ └─ assets/ # 素材（画像・UI・演出用）
-│ ├─ images/
-│ ├─ effects/
-│ └─ ui/
-│
-├─ functions/ # Firebase Cloud Functions（任意）
-│ ├─ index.js
-│ ├─ cleanup.js # 期限切れデータ削除
-│ └─ auth.js
-│
-├─ tools/ # 補助スクリプト（将来用）
-│ └─ python/
-│ ├─ cleanup.py
-│ └─ analyze.py
-│
-├─ firebase.json
-├─ firestore.rules
-└─ storage.rules
+├─ public/                            # 静的ファイル（配信対象）
+│  ├─ index.html                      # 入力フォーム画面
+│  ├─ preview.html                    # プレビュー画面
+│  ├─ css/
+│  │  └─ base.css                     # 画面スタイル
+│  ├─ js/
+│  │  └─ app/
+│  │     ├─ index-page-form.js        # 入力・画像処理・遷移
+│  │     └─ preview-page-timeline.js  # プレビュー表示・演出再生
+│  ├─ assets/
+│  │  └─ images/                      # 画像・デモ動画素材
+│  └─ exports/                        # render.jsでレンダリングした動画が入る
+│ 
+├─ tools/
+│  └─ node/
+│     ├─ render.js                    # 補助スクリプト
+│     ├─ package.json
+│     └─ package-lock.json
+├─ README.md
+└─ LICENSE
+```
 
 ---
 
