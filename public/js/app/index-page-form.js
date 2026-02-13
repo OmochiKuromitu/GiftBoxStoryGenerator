@@ -326,21 +326,26 @@ const giftTypeRadios = Array.from(document.querySelectorAll('input[name="giftTyp
         const cropperModal = document.getElementById("cropperModal");
         const cropperImage = document.getElementById("cropperImage");
         const cropperFrame = document.getElementById("cropperFrame");
-        const cropperSlider = document.getElementById("cropperZoom");
-        const cropperApply = document.getElementById("cropperApply");
-        const cropperCancel = document.getElementById("cropperCancel");
-        const cropperTitle = document.getElementById("cropperTitle");
+const cropperSlider = document.getElementById("cropperZoom");
+const cropperApply = document.getElementById("cropperApply");
+const cropperCancel = document.getElementById("cropperCancel");
+const cropperTitle = document.getElementById("cropperTitle");
+const cropperRotateLeft = document.getElementById("cropperRotateLeft");
+const cropperRotateRight = document.getElementById("cropperRotateRight");
 
-        let cropperState = {
-            target: "",
-            image: null,
-            scale: 1,
-            offsetX: 0,
-            offsetY: 0,
-            dragStartX: 0,
-            dragStartY: 0,
-            dragging: false
-        };
+let cropperState = {
+    target: "",
+    image: null,
+    baseScale: 1,
+    zoomFactor: 1,
+    scale: 1,
+    offsetX: 0,
+    offsetY: 0,
+    rotationDeg: 0,
+    dragStartX: 0,
+    dragStartY: 0,
+    dragging: false
+};
 
         // 画像入力とドロップゾーンの有効/無効状態を切り替える。
         const setImageInputState = (targetId, disabled) => {
@@ -371,10 +376,13 @@ const giftTypeRadios = Array.from(document.querySelectorAll('input[name="giftTyp
         const openCropper = (file, targetId) => {
             if (!file || !file.type.startsWith("image/")) return;
             cropperState.target = targetId;
-            cropperState.scale = 1;
-            cropperState.offsetX = 0;
-            cropperState.offsetY = 0;
-            cropperSlider.value = 1;
+    cropperState.scale = 1;
+    cropperState.baseScale = 1;
+    cropperState.zoomFactor = 1;
+    cropperState.offsetX = 0;
+    cropperState.offsetY = 0;
+    cropperState.rotationDeg = 0;
+    cropperSlider.value = 1;
             const targetRatio = targetId === "giftImage" ? "1 / 1" : "4 / 5";
             cropperFrame.style.aspectRatio = targetRatio;
             if (targetId === "giverImage") {
@@ -402,26 +410,41 @@ const giftTypeRadios = Array.from(document.querySelectorAll('input[name="giftTyp
         };
 
         // 画像全体がトリミング枠を埋める初期スケールに合わせる。
-        const fitImageToFrame = () => {
-            if (!cropperState.image) return;
-            const frameRect = cropperFrame.getBoundingClientRect();
-            const scaleX = frameRect.width / cropperState.image.width;
-            const scaleY = frameRect.height / cropperState.image.height;
-            cropperState.scale = Math.max(scaleX, scaleY);
-            cropperSlider.value = cropperState.scale;
-            cropperState.offsetX = 0;
-            cropperState.offsetY = 0;
-        };
+const fitImageToFrame = () => {
+    if (!cropperState.image) return;
+    const frameRect = cropperFrame.getBoundingClientRect();
+    const isQuarterTurn = Math.abs(cropperState.rotationDeg % 180) === 90;
+    const imageWidth = isQuarterTurn ? cropperState.image.height : cropperState.image.width;
+    const imageHeight = isQuarterTurn ? cropperState.image.width : cropperState.image.height;
+    const scaleX = frameRect.width / imageWidth;
+    const scaleY = frameRect.height / imageHeight;
+    cropperState.baseScale = Math.max(scaleX, scaleY);
+    cropperState.zoomFactor = 1;
+    cropperState.scale = cropperState.baseScale * cropperState.zoomFactor;
+    cropperSlider.value = 1;
+    cropperState.offsetX = 0;
+    cropperState.offsetY = 0;
+};
 
         // 現在の拡大率とオフセットをトリミング画像へ反映する。
-        const updateCropperTransform = () => {
-            cropperImage.style.transform = `translate(calc(-50% + ${cropperState.offsetX}px), calc(-50% + ${cropperState.offsetY}px)) scale(${cropperState.scale})`;
-        };
+const updateCropperTransform = () => {
+    cropperImage.style.transform = `translate(calc(-50% + ${cropperState.offsetX}px), calc(-50% + ${cropperState.offsetY}px)) rotate(${cropperState.rotationDeg}deg) scale(${cropperState.scale})`;
+};
 
-        cropperSlider.addEventListener("input", () => {
-            cropperState.scale = parseFloat(cropperSlider.value);
-            updateCropperTransform();
-        });
+cropperSlider.addEventListener("input", () => {
+    cropperState.zoomFactor = parseFloat(cropperSlider.value);
+    cropperState.scale = cropperState.baseScale * cropperState.zoomFactor;
+    updateCropperTransform();
+});
+
+const rotateCropper = (delta) => {
+    cropperState.rotationDeg = ((cropperState.rotationDeg + delta) % 360 + 360) % 360;
+    fitImageToFrame();
+    updateCropperTransform();
+};
+
+cropperRotateLeft?.addEventListener("click", () => rotateCropper(-90));
+cropperRotateRight?.addEventListener("click", () => rotateCropper(90));
 
         cropperFrame.addEventListener("pointerdown", (event) => {
             cropperState.dragging = true;
@@ -460,21 +483,27 @@ const giftTypeRadios = Array.from(document.querySelectorAll('input[name="giftTyp
             const canvas = document.createElement("canvas");
             canvas.width = outputWidth;
             canvas.height = outputHeight;
-            const ctx = canvas.getContext("2d");
-            const scale = cropperState.scale;
-            const imageX = (frameRect.width / 2) - (cropperState.image.width * scale / 2) + cropperState.offsetX;
-            const imageY = (frameRect.height / 2) - (cropperState.image.height * scale / 2) + cropperState.offsetY;
-            if (!isGift) {
-                ctx.fillStyle = "#000";
-                ctx.fillRect(0, 0, outputWidth, outputHeight);
-            }
-            ctx.drawImage(
-                cropperState.image,
-                imageX * (outputWidth / frameRect.width),
-                imageY * (outputHeight / frameRect.height),
-                cropperState.image.width * scale * (outputWidth / frameRect.width),
-                cropperState.image.height * scale * (outputHeight / frameRect.height)
-            );
+    const ctx = canvas.getContext("2d");
+    const scale = cropperState.scale;
+    const frameToOutputX = outputWidth / frameRect.width;
+    const frameToOutputY = outputHeight / frameRect.height;
+    const centerX = (frameRect.width / 2 + cropperState.offsetX) * frameToOutputX;
+    const centerY = (frameRect.height / 2 + cropperState.offsetY) * frameToOutputY;
+    const rotationRad = (cropperState.rotationDeg * Math.PI) / 180;
+    if (!isGift) {
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, outputWidth, outputHeight);
+    }
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rotationRad);
+    ctx.scale(scale * frameToOutputX, scale * frameToOutputY);
+    ctx.drawImage(
+        cropperState.image,
+        -cropperState.image.width / 2,
+        -cropperState.image.height / 2
+    );
+    ctx.restore();
             const mimeType = isGift ? "image/png" : "image/jpeg";
             const { blob } = await compressCanvas(canvas, mimeType, 1024 * 1024);
             if (!blob) return;

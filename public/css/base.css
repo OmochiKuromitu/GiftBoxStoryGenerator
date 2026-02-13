@@ -27,6 +27,15 @@ header {
     color: rgba(255, 255, 255, 0.7);
 }
 
+.compliance-note {
+    color: #fff3f3 !important;
+    font-weight: 700;
+    border-left: 4px solid #ff8fa3;
+    background: rgba(127, 29, 29, 0.35);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+
 .glass-card {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
@@ -199,6 +208,15 @@ header {
     display: grid;
     gap: 8px;
     margin-top: 12px;
+}
+
+.cropper-rotate-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.cropper-rotate-controls .btn {
+    flex: 1;
 }
 
 .cropper-controls label {

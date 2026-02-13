@@ -5,6 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GiftBox Story Generator</title>
+    <meta name="description" content="キャラクター同士がプレゼントをやり取りする動画を、ブラウザだけで簡単に作成できるWebアプリです。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GiftBox Story Generator">
+    <meta property="og:description" content="キャラクター同士がプレゼントをやり取りする動画を、ブラウザだけで簡単に作成できるWebアプリです。">
+    <meta property="og:url" content="https://niwakagami.com/giftbox/">
+    <meta property="og:image" content="https://niwakagami.com/giftbox/assets/images/sns_card.jpg">
+    <meta property="og:image:url" content="https://niwakagami.com/giftbox/assets/images/sns_card.jpg">
+    <meta property="og:image:secure_url" content="https://niwakagami.com/giftbox/assets/images/sns_card.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="GiftBox Story Generatorの紹介画像">
+    <meta property="og:site_name" content="GiftBox Story Generator">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GiftBox Story Generator">
+    <meta name="twitter:description" content="キャラクター同士がプレゼントをやり取りする動画を、ブラウザだけで簡単に作成できるWebアプリです。">
+    <meta name="twitter:image" content="https://niwakagami.com/giftbox/assets/images/sns_card.jpg">
+    <meta name="twitter:image:alt" content="GiftBox Story Generatorの紹介画像">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -25,7 +43,7 @@
                     <p class="lead text-white-50 mb-4">
                         「画像を入力しない」にチェックを入れ、リアクションとセリフだけでも動作します。SS動画を作りたい場合にご活用ください。
                     </p>
-                    <p class="lead text-white-50 mb-4">
+                    <p class="lead text-white-50 mb-4 compliance-note">
                         ※自作の絵や写真以外は使わないでください。
                     </p>
                     <div class="d-flex flex-wrap gap-2">
@@ -273,6 +291,10 @@
             <div class="cropper-controls">
                 <label for="cropperZoom">拡大縮小</label>
                 <input type="range" id="cropperZoom" min="0.5" max="3" step="0.01" value="1">
+                <div class="cropper-rotate-controls">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="cropperRotateLeft">90°左回転</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="cropperRotateRight">90°右回転</button>
+                </div>
                 <button type="button" class="btn btn-primary" id="cropperApply">適用</button>
             </div>
         </div>
